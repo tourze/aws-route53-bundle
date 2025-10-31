@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Override settings for development environment
+  Tourze\AwsRoute53Bundle\Client\Route53ClientFactory:
+    arguments:
+      $logger: '@logger'
+      $enableCache: false  # Disable caching in dev for easier debugging
+
+  Tourze\AwsRoute53Bundle\DataFixtures\:
+    resource: '../../DataFixtures/'

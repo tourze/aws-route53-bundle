@@ -1,0 +1,72 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  # Auto-configure EasyAdmin controllers 
+  Tourze\AwsRoute53Bundle\Controller\Admin\:
+    resource: '../../Controller/Admin'
+    tags: ['controller.service_arguments']
+
+  # AdminMenu Service
+  Tourze\AwsRoute53Bundle\Service\AdminMenu:
+
+  # Client Factory
+  Tourze\AwsRoute53Bundle\Contracts\Route53ClientFactoryInterface:
+    alias: Tourze\AwsRoute53Bundle\Client\Route53ClientFactory
+
+  Tourze\AwsRoute53Bundle\Client\Route53ClientFactory:
+    arguments:
+      $logger: '@logger'
+      $enableCache: true
+
+  # Account Resolver
+  Tourze\AwsRoute53Bundle\Contracts\AccountResolverInterface:
+    alias: Tourze\AwsRoute53Bundle\Account\AccountResolver
+
+  Tourze\AwsRoute53Bundle\Account\AccountResolver:
+    arguments:
+      $accountRepository: '@Tourze\AwsRoute53Bundle\Repository\AwsAccountRepository'
+
+  # Repositories
+  Tourze\AwsRoute53Bundle\Repository\AwsAccountRepository:
+    arguments:
+      $registry: '@doctrine'
+
+  Tourze\AwsRoute53Bundle\Repository\HostedZoneRepository:
+    arguments:
+      $registry: '@doctrine'
+
+  Tourze\AwsRoute53Bundle\Repository\RecordSetRepository:
+    arguments:
+      $registry: '@doctrine'
+
+  # Synchronizers
+  Tourze\AwsRoute53Bundle\Contracts\SynchronizerInterface:
+    alias: Tourze\AwsRoute53Bundle\Synchronizer\Route53Synchronizer
+
+  Tourze\AwsRoute53Bundle\Synchronizer\Route53Synchronizer:
+    arguments:
+      $pullSynchronizer: '@Tourze\AwsRoute53Bundle\Synchronizer\PullSynchronizer'
+      $pushSynchronizer: '@Tourze\AwsRoute53Bundle\Synchronizer\PushSynchronizer'
+      $lockFactory: '@lock.default.factory'
+      $logger: '@logger'
+
+  Tourze\AwsRoute53Bundle\Synchronizer\PullSynchronizer:
+    arguments:
+      $clientFactory: '@Tourze\AwsRoute53Bundle\Contracts\Route53ClientFactoryInterface'
+      $entityManager: '@doctrine.orm.entity_manager'
+      $hostedZoneRepository: '@Tourze\AwsRoute53Bundle\Repository\HostedZoneRepository'
+      $recordSetRepository: '@Tourze\AwsRoute53Bundle\Repository\RecordSetRepository'
+      $lockFactory: '@lock.default.factory'
+      $logger: '@logger'
+
+  Tourze\AwsRoute53Bundle\Synchronizer\PushSynchronizer:
+    arguments:
+      $clientFactory: '@Tourze\AwsRoute53Bundle\Contracts\Route53ClientFactoryInterface'
+      $entityManager: '@doctrine.orm.entity_manager'
+      $hostedZoneRepository: '@Tourze\AwsRoute53Bundle\Repository\HostedZoneRepository'
+      $recordSetRepository: '@Tourze\AwsRoute53Bundle\Repository\RecordSetRepository'
+      $lockFactory: '@lock.default.factory'
+      $logger: '@logger'
