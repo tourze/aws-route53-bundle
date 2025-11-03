@@ -8,6 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Tourze\BundleDependency\BundleDependencyInterface;
+use Tourze\EasyAdminMenuBundle\EasyAdminMenuBundle;
 
 class AwsRoute53Bundle extends Bundle implements BundleDependencyInterface
 {
@@ -17,6 +18,7 @@ class AwsRoute53Bundle extends Bundle implements BundleDependencyInterface
         return [
             DoctrineBundle::class => ['all' => true],
             DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+            EasyAdminMenuBundle::class => ['all' => true],
         ];
     }
 }
