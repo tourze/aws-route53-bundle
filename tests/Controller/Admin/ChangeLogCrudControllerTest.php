@@ -37,12 +37,6 @@ class ChangeLogCrudControllerTest extends AbstractEasyAdminControllerTestCase
         return self::getContainer()->get(ChangeLogCrudController::class);
     }
 
-    protected function onSetUp(): void
-    {
-        // ChangeLogFixtures依赖于AwsAccountFixtures和HostedZoneFixtures
-        // 确保数据库中有数据以便EasyAdmin渲染表头
-    }
-
     public static function provideIndexPageHeaders(): iterable
     {
         yield 'id' => ['ID'];

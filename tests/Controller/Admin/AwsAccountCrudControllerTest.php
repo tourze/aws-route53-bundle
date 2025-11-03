@@ -37,12 +37,6 @@ class AwsAccountCrudControllerTest extends AbstractEasyAdminControllerTestCase
         return self::getContainer()->get(AwsAccountCrudController::class);
     }
 
-    protected function onSetUp(): void
-    {
-        // DataFixtures会通过services_test.yaml自动加载
-        // 确保数据库中有数据以便EasyAdmin渲染表头
-    }
-
     public static function provideIndexPageHeaders(): iterable
     {
         yield 'id' => ['ID'];
